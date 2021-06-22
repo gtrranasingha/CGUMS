@@ -88,10 +88,10 @@
                <form action="/register/savedata" method="post"> 
                {{csrf_field()}}
                <div class="form-group">
-    <label for="exampleInputPassword1">User Name</label>
-    <input type="text" class="form-control " id="exampleInputPassword1" name="name">
-    @if ($errors->has('name'))
-        <span class="text-danger">{{ $errors->first('name') }}</span>
+    <label for="exampleInputPassword1">Studen ID</label>
+    <input type="text" class="form-control " id="exampleInputPassword1" name="student_id">
+    @if ($errors->has('student_id'))
+        <span class="text-danger">{{ $errors->first('student_id') }}</span>
      @endif
   </div>
   <div class="form-group">

@@ -17,7 +17,7 @@ Route::get('/welcome', function () {
    return redirect('/');
 });
 Route::get('/register', function () {
-    return view('auth.register');
+    return view('auth.student_register');
 });
 Route::post('/register/savedata',[UserController::class,'register']);
 Route::post('/login/getdata',[UserController::class,'login']);
@@ -31,7 +31,7 @@ Route::get('/', function () {
     if(session()->has('student_user')){
         return redirect('/welcome');
     }
-   return view('auth.login');
+   return view('auth.student_login');
 });
 Route::get('/welcome/update/{id}',[UserController::class,'updateProfile']);
 Route::post('/welcome/update/savedata/{id}',[UserController::class,'edit']);

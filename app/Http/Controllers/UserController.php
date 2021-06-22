@@ -11,13 +11,13 @@ class UserController extends Controller
                 $user=new User();
                 //validating
             $this->validate($request,[
-                'name'=>'required|max:191|min:5',
+                'student_id'=>'required|max:15|min:5',
                 'password'=>'required|max:191|min:2',
                 'student_name'=>'required|max:191|min:5',
                 'email'=>'required|email|unique:users',
                 ]
             );
-                $user->name=$request->name;
+                $user->student_id=$request->student_id;
                 $user->student_name=$request->student_name;
                 $user->email=$request->email;
                 $shpassword=sha1($request->password);
@@ -25,7 +25,7 @@ class UserController extends Controller
                $file= $user->save();
            // dd($request->all());
            if($file){
-            $id=DB::table('users')->where('name', $user->name)->value('id');
+            $id=DB::table('users')->where('student_id', $user->student_id)->value('id');
             $user=User::find($id);
             $request->session()->put('student_user',$user['student_name']);
             $request->session()->put('student_userId',$id);
@@ -42,20 +42,20 @@ class UserController extends Controller
     public function login(Request $request){
         // dd($resquest->all());
         $this->validate($request,[
-            'name'=>'required|max:191|min:5',
+            'student_id'=>'required|max:15|min:5',
             'password'=>'required|max:191|min:2'
            
             ]
         );
-         $name=$request->name;
+         $student_id=$request->student_id;
          $shpassword=sha1($request->password);
          $password=$shpassword;
 
-        $data= DB::select('select id from users where name=? and password=?',[$name, $password]);
+        $data= DB::select('select id from users where student_id=? and password=?',[$student_id, $password]);
         
         // print_r($data);
         if(count($data)){
-            $id=DB::table('users')->where('name', $name)->value('id');
+            $id=DB::table('users')->where('student_id', $student_id)->value('id');
             $user=User::find($id);
             $request->session()->put('student_user',$user['student_name']);
             $request->session()->put('student_userId',$id);
@@ -76,14 +76,14 @@ class UserController extends Controller
         //dd($request->all());
         if(session()->has('student_user')){
             $this->validate($request,[
-                'name'=>'required|max:191|min:5',
+                'student_id'=>'required|max:191|min:5',
                 'student_name'=>'required|max:191|min:5',
                 'email'=>'required|email',
                 ]
             );
 
             $user=User::find($id);
-            $user->name=$request->name;
+            $user->student_id=$request->student_id;
             $user->student_name=$request->student_name;
             $user->email=$request->email;
             $rst=$user->update();

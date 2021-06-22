@@ -77,21 +77,21 @@
            
 
             <div class="content">
-            <div class="col-md-12">
+        <div class="col-md-12">
             @if(Session::has('error_message'))
             <div class="alert alert-danger" role="alert">
                 {{Session::get('error_message')}}
             </div>
             @endif
-               <div>
+        <div>
                <h1>Student Login</h1>
                <form action="/login/getdata" method="post"> 
                {{csrf_field()}}
                <div class="form-group">
-    <label for="exampleInputPassword1">User Name</label>
-    <input type="text" class="form-control" id="exampleInputPassword1" name="name">
-    @if ($errors->has('name'))
-        <span class="text-danger">{{ $errors->first('name') }}</span>
+    <label for="exampleInputPassword1">Student Number</label>
+    <input type="text" class="form-control" id="exampleInputPassword1" name="student_id">
+    @if ($errors->has('student_id'))
+        <span class="text-danger">{{ $errors->first('student_id') }}</span>
      @endif
   </div>
 

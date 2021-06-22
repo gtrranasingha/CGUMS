@@ -108,10 +108,10 @@
     <input type="hidden" class="form-control " id="exampleInputPassword1" value="{{$student_user_data->id}}" name="name">
   </div>
                <div class="form-group">
-    <label for="exampleInputPassword1">User Name</label>
-    <input type="text" class="form-control " id="exampleInputPassword1" value="{{$student_user_data->name}}" name="name">
-    @if ($errors->has('name'))
-        <span class="text-danger">{{ $errors->first('name') }}</span>
+    <label for="exampleInputPassword1">Student Number</label>
+    <input type="text" class="form-control " id="exampleInputPassword1" value="{{$student_user_data->student_id}}" name="student_id">
+    @if ($errors->has('student_id'))
+        <span class="text-danger">{{ $errors->first('student_id') }}</span>
      @endif
   </div>
   <div class="form-group">
