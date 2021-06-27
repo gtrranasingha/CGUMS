@@ -187,7 +187,7 @@
             </form>
                 <div class="text-center">
                     <p class="text-light">Not a user yet?
-                    <a href="/register" class="btn aqua-gradient btn-sm role=button ">Register Now</a></p>
+                    <a href="/request_register" class="btn aqua-gradient btn-sm role=button ">Register Now</a></p>
                     </div>
                 </div>
            

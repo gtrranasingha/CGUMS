@@ -4,8 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Register</title>
-
+        <title>Confirm Box</title>
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
@@ -84,40 +83,21 @@
             </div>
             @endif
                <div>
-               <h1>Student Register</h1>
-               <form action="/register/savedata" method="post"> 
+               <h1>Confirm Box</h1>
+               <form action="/request_register/sendemail/confirm/savenumber" method="post"> 
                {{csrf_field()}}
                <div class="form-group">
-    <label for="exampleInputPassword1">Studen ID</label>
-    <input type="text" class="form-control " id="exampleInputPassword1" name="student_id">
-    @if ($errors->has('student_id'))
-        <span class="text-danger">{{ $errors->first('student_id') }}</span>
-     @endif
+    <label for="exampleInputPassword1">Check your Inbox</label>
+    
   </div>
   <div class="form-group">
-    <label for="exampleInputPassword1">Full Name</label>
-    <input type="text" class="form-control " id="exampleInputPassword1" name="student_name">
-    @if ($errors->has('student_name'))
-        <span class="text-danger">{{ $errors->first('student_name') }}</span>
+    <label for="exampleInputPassword1">Code</label>
+    <input type="number" class="form-control " id="exampleInputPassword1" name="number">
+    @if ($errors->has('number'))
+        <span class="text-danger">{{ $errors->first('number') }}</span>
      @endif
   </div>
-  <div class="form-group">
-    <label for="exampleInputEmail1">Email address</label>
-    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="email">
-    <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
-    @if ($errors->has('email'))
-        <span class="text-danger">{{ $errors->first('email') }}</span>
-     @endif
-  </div>
-  <div class="form-group">
-    <label for="exampleInputPassword2">Password</label>
-    <input type="password" class="form-control" id="exampleInputPassword2" name="password">
-    @if ($errors->has('password'))
-        <span class="text-danger">{{ $errors->first('password') }}</span>
-     @endif
-  </div>
- 
-  <button type="submit" class="btn btn-primary">Submit</button>
+  <button type="submit"  name="submit" class="btn btn-primary">Confirm</button>
   <input type="button" class="btn btn-warning"  value="Clear" onclick="clear_task()"> 
 </form>
                

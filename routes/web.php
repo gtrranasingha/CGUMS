@@ -3,12 +3,20 @@
 use App\Http\Controllers\Career_Counsellor_UserController;
 use App\Http\Controllers\CGU_Dirctor_UserController;
 use App\Http\Controllers\Company_UserController;
+use App\Http\Controllers\MailController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 
 ///////////////////////Student's  Routes///////////////////////////
-
+Route::post('/request_register/sendemail',[MailController::class,'sendEmail']);
+Route::get('/request_register',function(){
+    return view('auth.requestmail');
+});
+Route::get('/request_register/sendemail/confirm',function(){
+    return view('auth.confirm_box');
+});
+Route::post('/request_register/sendemail/confirm/savenumber',[MailController::class,'confirmEmail']);
     //Student's Auth Routes
 Route::get('/welcome', function () {
     if(session()->has('student_user')){
@@ -16,8 +24,12 @@ Route::get('/welcome', function () {
     }
    return redirect('/');
 });
-Route::get('/register', function () {
-    return view('auth.student_register');
+Route::get('/request_register/sendemail/confirm/savenumbe/register', function () {
+    if(session()->has('code')){
+        session()->pull('code');
+        return view('auth.student_register');
+    }
+    return redirect('/');
 });
 Route::post('/register/savedata',[UserController::class,'register']);
 Route::post('/login/getdata',[UserController::class,'login']);

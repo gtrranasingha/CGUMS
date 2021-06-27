@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Login</title>
+        <title>Request</title>
 
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
@@ -84,30 +84,22 @@
             </div>
             @endif
         <div>
-               <h1>Student Login</h1>
-               <form action="/login/getdata" method="post"> 
+               <h1>Request to Registration</h1>
+               <form action="/request_register/sendemail" method="post"> 
                {{csrf_field()}}
                <div class="form-group">
-    <label for="exampleInputPassword1">Student Number</label>
-    <input type="text" class="form-control" id="exampleInputPassword1" name="student_id">
-    @if ($errors->has('student_id'))
-        <span class="text-danger">{{ $errors->first('student_id') }}</span>
+    <label for="exampleInputPassword1">Student Email</label>
+    <input type="email" class="form-control" id="exampleInputPassword1" name="email">
+    @if ($errors->has('email'))
+        <span class="text-danger">{{ $errors->first('email') }}</span>
      @endif
   </div>
 
-  <div class="form-group">
-    <label for="exampleInputPassword2">Password</label>
-    <input type="password" class="form-control" id="exampleInputPassword2" name="password">
-    @if ($errors->has('password'))
-        <span class="text-danger">{{ $errors->first('password') }}</span>
-     @endif
-  </div>
  
-  <button type="submit" class="btn btn-primary">Log</button>
+ 
+  <button type="submit" name="submit" class="btn btn-primary">Send Request</button>
   <input type="button" class="btn btn-warning"  value="Clear" onclick="clear_task()"> 
-  <div id="register-link" class="text-right">
-                                <a href="/register" class="text-info">Register here</a>
-                            </div>
+ 
 </form>
                
                
