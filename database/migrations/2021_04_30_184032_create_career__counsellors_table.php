@@ -18,6 +18,7 @@ class CreateCareerCounsellorsTable extends Migration
             $table->primary('CC_id');
             $table->string('f_name',50);
             $table->string('l_name',100);
+            $table->string('role',100);
             $table->string('email',100)->unique();
             $table->string('notices',1000);
             $table->timestamps();

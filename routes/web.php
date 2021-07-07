@@ -11,10 +11,16 @@ use Illuminate\Support\Facades\Route;
 ///////////////////////Student's  Routes///////////////////////////
 Route::post('/request_register/sendemail',[MailController::class,'sendEmail']);
 Route::get('/request_register',function(){
-    return view('auth.requestmail');
+    return view('auth.student_register_request');
 });
 Route::get('/request_register/sendemail/confirm',function(){
-    return view('auth.confirm_box');
+    return view('auth.student_register_request_confirmbox');
+});
+Route::get('/request_register/sendemail/confirm/error',function(){
+    return view('auth.student_register_request_error');
+});
+Route::get('/request_register/sendemail/confirm/savenumber/send',function(){
+    return view('auth.student_register_request_send');
 });
 Route::post('/request_register/sendemail/confirm/savenumber',[MailController::class,'confirmEmail']);
     //Student's Auth Routes

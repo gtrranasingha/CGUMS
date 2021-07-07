@@ -1,12 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>ItsolutionStuff.com</title>
+    <title>CGUMS,University of Ruhuna </title>
 </head>
 <body>
-    <h1>{{$details['title']}}</h1>
-    <p>{{$details['body']}}</p>
-   
-    <p>Thank you</p>
+    <pre><b>{{$details['body']}}</b></pre>
 </body>
 </html>

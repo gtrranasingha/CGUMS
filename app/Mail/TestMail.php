@@ -29,7 +29,8 @@ class TestMail extends Mailable
      */
     public function build()
     {
-        return $this->subject('Mail from CGUMS')
+        return $this->subject('CGUMS E-mail verification
+        ')
         ->view('emails.myTestMail');
     }
 }

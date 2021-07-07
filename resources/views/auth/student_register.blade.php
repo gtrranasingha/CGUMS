@@ -8,12 +8,12 @@
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   <title>CGUMS Registration</title>
 
-  <!-- Font Awesome -->
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
-<!-- Bootstrap core CSS -->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet">
-<!-- Material Design Bootstrap -->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.1/css/mdb.min.css" rel="stylesheet">
+ <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
+  <!-- Bootstrap core CSS -->
+  <link href="/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Material Design Bootstrap -->
+  <link href="/css/mdb.min.css" rel="stylesheet">
 
   <style>
 
@@ -43,7 +43,7 @@
         }
 
         .intro-2 {
-            background: url("E:/New folder/Temp/MDB Pro/img/loginbackground.jpg")no-repeat center center;
+            background: url("/img/loginbackground.jpg")no-repeat center center;
             background-size: cover;
         }
         .top-nav-collapse {

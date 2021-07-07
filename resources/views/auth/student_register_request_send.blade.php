@@ -1,22 +1,19 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="en">
 
 <head>
   <!-- Required meta tags always come first -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
-  <title>CGUMS Login</title>
+  <title>CGUMS Registration</title>
 
- 
-
-  <!-- Font Awesome -->
-  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
+ <!-- Font Awesome -->
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
   <!-- Bootstrap core CSS -->
   <link href="/css/bootstrap.min.css" rel="stylesheet">
   <!-- Material Design Bootstrap -->
   <link href="/css/mdb.min.css" rel="stylesheet">
-
   <style>
 
     html,
@@ -116,19 +113,20 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent-7">
           <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
-              <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">About Us</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Services</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Contact</a>
-            </li>
+                        <li class="nav-item active">
+                          <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                        </li>
+                        <li class="nav-item">
+                          <a class="nav-link" href="#">About Us</a>
+                        </li>
+                        <li class="nav-item">
+                          <a class="nav-link" href="#">Services</a>
+                        </li>
+                        <li class="nav-item">
+                          <a class="nav-link" href="#">Contact</a>
+                        </li>
           </ul>
+          
         </div>
       </div>
     </nav>
@@ -140,56 +138,15 @@
           <div class="row">
             <div class="col-xl-5 col-lg-6 col-md-10 col-sm-12 mx-auto mt-lg-5">
 
-              <!--Form with header-->
-              <div class="card wow fadeIn" data-wow-delay="0.3s">
-                <div class="card-body">
-
                   <!--Header-->
-                  <div class="form-header purple-gradient">
-                    <h3><i class="fas fa-id-badge mt-2 mb-2"></i> C G U M S</h3>
-                  </div>
-                  <!--Error msg-->
-                  <div class="col-md-12">
-                        @if(Session::has('error_message'))
-                        <div class="alert alert-danger" role="alert">
-                            {{Session::get('error_message')}}
-                        </div>
-                        @endif
-                    <div>
-                  <!--Body-->
-            <form action="/login/getdata" method="post"> 
-                        {{csrf_field()}}
-                  <div class="md-form">
-                    <i class="fas fa-user prefix white-text"></i>
-                    <input type="text" name="student_id" id="orangeForm-name" class="form-control">
-                    <label for="orangeForm-name">Student ID (SC/20XX/XXXXX)</label>
-                    @if ($errors->has('student_id'))
-                    <span class="text-danger">{{ $errors->first('student_id') }}</span>
-                    @endif
-                  </div>
-
-                  <div class="md-form">
-                    <i class="fas fa-lock prefix white-text"></i>
-                    <input type="password" name="password" id="orangeForm-pass" class="form-control">
-                    <label for="orangeForm-pass">Password</label>
-                    @if ($errors->has('password'))
-                    <span class="text-danger">{{ $errors->first('password') }}</span>
-                    @endif
-                  </div>
-
-                <div class="text-center">
-                    <button  type="submit" class="btn purple-gradient btn-lg">Log In</button>
-                </div>  
-            </form>
-                <div class="text-center">
-                    <p class="text-light">Not a user yet?
-                    <a href="/request_register" class="btn aqua-gradient btn-sm role=button ">Register Now</a></p>
+                    <div class="card-body text-white blue-gradient mb-3" style="max-width: 50rem;">
+                       <h3 class="card-title text-center"><B>Verified!</B></h3>
+                       <p class="text-center"><i class="fas fa-check-circle fa-5x"></i></p>
+                       <p class="card-text text-white text-center">You have successfully verified your email.<br>Please click <i>Next</i> to continue the registration</p>
+                       <p class="text-center"><button class="btn aqua-gradient btn-lg "><a href="/request_register/sendemail/confirm/savenumbe/register">Next</a></button></p>
+               
                     </div>
-                </div>
-           
-            </div>
-                </div>
-              <!--/Form with header-->
+                  <!--/Form with header-->
 
             </div>
           </div>
@@ -198,26 +155,27 @@
     </section>
 
   </header>
-  <!--Main Navigation-->
 
   <footer class="page-footer bg-dark pt-0 mt-0">
-  
-    <!-- Copyright -->
-    <div class="footer-copyright py-3 text-center">
-      <div class="container-fluid">© 2021 Copyright: Career Guidance Unit Management System [CGUMS] | Career Guidance Unit<a href="https://ruh.ac.lk" target="_blank"> University of Ruhuna </a>
-  
+    
+      <!-- Copyright -->
+      <div class="footer-copyright py-3 text-center">
+        <div class="container-fluid">© 2021 Copyright: Career Guidance Unit Management System [CGUMS] | Career Guidance
+          Unit<a href="https://ruh.ac.lk" target="_blank"> University of Ruhuna </a>
+    
+        </div>
       </div>
-    </div>
-    <!-- Copyright -->
-  
+      <!-- Copyright -->
+    
   </footer>
-  <!-- Footer -->
+
+  <!--Main Navigation-->
 
 
   <!--  SCRIPTS  -->
-  
- <!-- JQuery -->
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <!-- JQuery -->
+   <!-- JQuery -->
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <!-- Bootstrap tooltips -->
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.4/umd/popper.min.js"></script>
 <!-- Bootstrap core JavaScript -->
