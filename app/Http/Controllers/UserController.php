@@ -29,7 +29,7 @@ class UserController extends Controller
             $user=User::find($id);
             $request->session()->put('student_user',$user['student_name']);
             $request->session()->put('student_userId',$id);
-            return redirect('/welcome');
+            return redirect('/request_register/sendemail/confirm/savenumbe/register/profile');
            }
            else{
             return redirect()->back()->with('error_message', 'Registetion Failed!');

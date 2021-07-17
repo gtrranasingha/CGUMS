@@ -3,6 +3,7 @@
 use App\Http\Controllers\Career_Counsellor_UserController;
 use App\Http\Controllers\CGU_Dirctor_UserController;
 use App\Http\Controllers\Company_UserController;
+use App\Http\Controllers\FacultyController;
 use App\Http\Controllers\MailController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -49,8 +50,13 @@ Route::get('/', function () {
     if(session()->has('student_user')){
         return redirect('/welcome');
     }
-   return view('auth.student_login');
+  return view('auth.student_login');
+ 
 });
+////////////////////////DropdownList/////////////
+Route::get('/request_register/sendemail/confirm/savenumbe/register/profile', [FacultyController::class, 'index']);
+Route::get('/request_register/sendemail/confirm/savenumbe/register/profile/getDegree/{id}', [FacultyController::class, 'getDegree']);
+/////////////////////////////////////////////////////////////////////
 Route::get('/welcome/update/{id}',[UserController::class,'updateProfile']);
 Route::post('/welcome/update/savedata/{id}',[UserController::class,'edit']);
 Route::get('/welcome/update/change_password/{id}',[UserController::class,'changePassword']);
