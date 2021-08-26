@@ -14,8 +14,7 @@ class CreateProgrammesTable extends Migration
     public function up()
     {
         Schema::create('programmes', function (Blueprint $table) {
-            $table->string('P_id',20);
-            $table->primary('P_id');
+            $table->increments('P_id',20);
             $table->string('St_id',20)->nullable();
             $table->string('P_type',50);
             $table->string('P_name',100);

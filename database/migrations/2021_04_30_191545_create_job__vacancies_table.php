@@ -14,14 +14,19 @@ class CreateJobVacanciesTable extends Migration
     public function up()
     {
         Schema::create('job__vacancies', function (Blueprint $table) {
-            $table->string('Jv_id',20);
-            $table->primary('Jv_id');
+            $table->id();
             $table->string('Jv_description',2000);
+            $table->string('comp_description',2000);
+            $table->string('Jv_respon',2000);
+            $table->string('Jv_que',2000);
+            $table->string('Jv_addinfo',2000);
             $table->string('Jv_name',100);
+            $table->string('comp_name',100);
             $table->string('Jv_type',50);
-            $table->string('location',200);
-            $table->string('area',100);
-            $table->date('Jv_deadline');
+            $table->string('img_path',200)->nullable();
+            $table->date('Jv_essudate');
+            $table->string('Jv_deadline');
+            $table->boolean('confirmed')->default(false);
             $table->timestamps();
         });
     }

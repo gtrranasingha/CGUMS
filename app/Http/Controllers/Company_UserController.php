@@ -61,7 +61,7 @@ class Company_UserController extends Controller
         if(session()->has('company_user')){
             $this->validate($request,[
                 'name'=>'required|max:191|min:5',
-                'comp_name'=>'required|max:191|min:5',
+                'comp_name'=>'required|max:191|min:3',
                 ]
             );
 
@@ -82,7 +82,7 @@ class Company_UserController extends Controller
     public function changePassword($id){
         if(session()->has('company_user')){
             $user=Comapany_user::find($id);
-            return view('auth.company_change_password')->with('company_user_data',$user);
+            return view('compantUI.Company User Profile')->with('company_user_data',$user);
          }
          return redirect('/company');   
     }

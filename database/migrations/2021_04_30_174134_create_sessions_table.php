@@ -14,12 +14,12 @@ class CreateSessionsTable extends Migration
     public function up()
     {
         Schema::create('sessions', function (Blueprint $table) {
-            $table->string('s_no',20);
-            $table->primary('s_no');
+            $table->increments('s_no',20);
             $table->string('St_id',20)->nullable();
             $table->string('s_type',50);
-            $table->date('s_date');
-            $table->time('s_time');
+            $table->string('s_date');
+            $table->string('s_time');
+            $table->boolean('confirmed')->default(false);
             $table->timestamps();
 
             $table->foreign('St_id')->references('St_id')->on('students')->onDelete('cascade')->onUpdate('cascade');

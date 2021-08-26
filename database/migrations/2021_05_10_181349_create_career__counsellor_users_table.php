@@ -18,6 +18,7 @@ class CreateCareerCounsellorUsersTable extends Migration
             $table->string('name',20)->unique();
             $table->string('coun_name',200)->unique();
             $table->string('password',225);
+            $table->string('role',100)->nullable();
             $table->tinyInteger('is_deleted')->default(0);
             $table->rememberToken();
             $table->timestamps();

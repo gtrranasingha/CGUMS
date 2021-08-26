@@ -14,8 +14,7 @@ class CreateCareerCounsellorsTable extends Migration
     public function up()
     {
         Schema::create('career__counsellors', function (Blueprint $table) {
-            $table->string('CC_id',20);
-            $table->primary('CC_id');
+            $table->increments('CC_id',20);
             $table->string('f_name',50);
             $table->string('l_name',100);
             $table->string('role',100);

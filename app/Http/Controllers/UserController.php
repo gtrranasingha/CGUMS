@@ -1,8 +1,12 @@
 <?php
 
 namespace App\Http\Controllers;
+
+use App\Models\Session;
+use App\Models\Student;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
@@ -29,6 +33,8 @@ class UserController extends Controller
             $user=User::find($id);
             $request->session()->put('student_user',$user['student_name']);
             $request->session()->put('student_userId',$id);
+            $request->session()->put('student_email',$user['email']);
+            $request->session()->put('student_id',$user['student_id']);
             return redirect('/request_register/sendemail/confirm/savenumbe/register/profile');
            }
            else{
@@ -56,9 +62,16 @@ class UserController extends Controller
         // print_r($data);
         if(count($data)){
             $id=DB::table('users')->where('student_id', $student_id)->value('id');
+            $ids=DB::table('students')->where('St_id', $student_id)->value('id');
+            $student_user=Student::find($ids);
             $user=User::find($id);
+            $request->session()->put('student_id',$user['student_id']);
+            $request->session()->put('student_email',$user['email']);
             $request->session()->put('student_user',$user['student_name']);
             $request->session()->put('student_userId',$id);
+            $request->session()->put('cv',$student_user['cv']);
+           // $data1= DB::select('select id from sessions  where student_id=?',[$student_id]);
+
          return redirect('/welcome');
         }
         else{
@@ -99,8 +112,9 @@ class UserController extends Controller
     }
     public function changePassword($id){
         if(session()->has('student_user')){
-            $user=User::find($id);
-            return view('auth.change_password')->with('student_user_data',$user);
+            $ID= Crypt::decrypt($id); 
+            $user=User::find($ID);
+            return view('auth.student_user_change_password')->with('student_user_data',$user);
          }
          return redirect('/welcome');   
     }
@@ -120,9 +134,9 @@ class UserController extends Controller
                 $newpassword=sha1($request->newpassword);
                 $user->password=$newpassword;
                 $user->update();
-                return redirect()->back()->with('message', 'successfully updated');
+                return redirect('/welcome'); 
             }else{
-                return redirect()->back()->with('error_message', 'failed to  update');
+                return redirect()->back()->with('error_message', 'Worng Current Password!');
             }
         
          }

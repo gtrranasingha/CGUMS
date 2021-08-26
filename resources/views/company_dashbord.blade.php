@@ -75,5 +75,13 @@
     <div>
     <a href="/company/company_dashbord/update/{{session('company_userId')}}" class="text-info">update profile</a>
     </div>
+    <br>
+    <div>
+    <a href="/company/company_dashbord/add_vacancies" class="text-info">Add Vacancies</a>
+    <br>
+    <a href="/company/company_dashbord/View_applications" class="text-info">view Application</a>
+    <br>
+    <a href="/company/company_dashbord/profile_registration" class="text-info">Company Profile Registration</a>
+    </div>
 </body>
 </html>

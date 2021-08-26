@@ -2,10 +2,16 @@
 
 use App\Http\Controllers\Career_Counsellor_UserController;
 use App\Http\Controllers\CGU_Dirctor_UserController;
+use App\Http\Controllers\Company_Controller;
 use App\Http\Controllers\Company_UserController;
 use App\Http\Controllers\FacultyController;
+use App\Http\Controllers\Job_Vacancy_Controller;
 use App\Http\Controllers\MailController;
+use App\Http\Controllers\Session_Controller;
+use App\Http\Controllers\Student_Controller;
 use App\Http\Controllers\UserController;
+use App\Models\Session;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 
 
@@ -27,7 +33,14 @@ Route::post('/request_register/sendemail/confirm/savenumber',[MailController::cl
     //Student's Auth Routes
 Route::get('/welcome', function () {
     if(session()->has('student_user')){
-        return view('welcome');
+        $session_count =count(DB::select('select s_no from sessions  where St_id=?',[session('student_id')]));
+        $job_count =count(DB::select('select id from  job__vacancies'));
+        $programme_count =count(DB::select('select P_id from   programmes where St_id=?',[session('student_id')]));
+        $applyjob_count =count(DB::select('select id from    apply_jobs  where st_uid =?',[session('student_id')]));
+        $applyjobs_data= DB::select('select * from  apply_jobs  where st_uid =?',[session('student_id')]);
+        $programmes_data= DB::select('select * from  programmes where St_id=?',[session('student_id')]);
+        return view('studentUI.student_dashbord',['sessionCounts'=> $session_count,'jobCounts'=>$job_count,'proCounts'=>$programme_count,
+        'applyjob'=>$applyjob_count,'jobs'=>$applyjobs_data,'programmes'=>$programmes_data]);
     }
    return redirect('/');
 });
@@ -53,20 +66,37 @@ Route::get('/', function () {
   return view('auth.student_login');
  
 });
+
+Route::get('/welcome/update/{id}',[UserController::class,'updateProfile']);
+Route::post('/welcome/update/savedata/{id}',[UserController::class,'edit']);
+Route::get('/welcome/change_password/{id}',[UserController::class,'changePassword']);
+Route::post('/welcome/change_password/savedata/{id}',[UserController::class,'resetPassword']);
 ////////////////////////DropdownList/////////////
 Route::get('/request_register/sendemail/confirm/savenumbe/register/profile', [FacultyController::class, 'index']);
 Route::get('/request_register/sendemail/confirm/savenumbe/register/profile/getDegree/{id}', [FacultyController::class, 'getDegree']);
 /////////////////////////////////////////////////////////////////////
-Route::get('/welcome/update/{id}',[UserController::class,'updateProfile']);
-Route::post('/welcome/update/savedata/{id}',[UserController::class,'edit']);
-Route::get('/welcome/update/change_password/{id}',[UserController::class,'changePassword']);
-Route::post('/welcome/update/change_password/savedata/{id}',[UserController::class,'resetPassword']);
+Route::post('/request_register/sendemail/confirm/savenumbe/register/profile/savedata', [Student_Controller::class, 'register'])->name('profiledata');
+Route::get('/welcome/profile', [Student_Controller::class, 'index']);
+Route::post('/welcome/profile/savedata/{id}', [Student_Controller::class, 'editProfile']);
+Route::get('/welcome/job_vacancies', [Job_Vacancy_Controller::class, 'index']);
+Route::get('/welcome/job_vacancies/apply/{id}', [Job_Vacancy_Controller::class,'apply']);
+Route::get('/welcome/job_vacancies/apply/request/{id}', [Job_Vacancy_Controller::class,'request']);
+Route::get('/welcome/sessions/cc_session', [Session_Controller::class,'index']);
+Route::post('/welcome/sessions/cc_session/savedata', [Session_Controller::class,'getAppoinment']);
+Route::get('/welcome/sessions/mock_interviews', [Session_Controller::class,'mockIndex']);
+Route::post('/welcome/sessions/mock_interviews/savedata', [Session_Controller::class,'getMock']);
 //////////////////Company's Routes///////////////////////////
 
     //Company's Auth Routes
 Route::get('/company/company_dashbord', function () {
     if(session()->has('company_user')){
-        return view('company_dashbord');
+        $jv_count =count(DB::select('select id from  job__vacancies  where comp_name =?',[session('company_user')]));
+        $applyjob_count =count(DB::select('select id from  apply_jobs  where comp_name =?',[session('company_user')]));
+        $confirmjob_count =count(DB::select('select id from  apply_jobs  where comp_name =? and confirmed =?',[session('company_user'),1]));
+        $allapplyjob_count =count(DB::select('select * from  apply_jobs  where comp_name =?',[session('company_user')]));
+       $allpendingapplyjob_count =count(DB::select('select id from  apply_jobs  where comp_name =? and confirmed=?',[session('company_user'),0]));
+        return view('compantUI.company_dashbord',['jvCounts'=> $jv_count,'ajCounts'=>$applyjob_count,'selectjobCounts'=>$confirmjob_count ,
+        'alljobs'=>$allapplyjob_count,'newcomer'=> $allpendingapplyjob_count]);
     }
    return redirect('/company');
 
@@ -92,6 +122,30 @@ Route::get('/company/company_dashbord/update/{id}',[Company_UserController::clas
 Route::post('/company/company_dashbord/update/savedata/{id}',[Company_UserController::class,'edit']);
 Route::get('/company/company_dashbord/update/change_password/{id}',[Company_UserController::class,'changePassword']);
 Route::post('/company/company_dashbord/update/change_password/savedata/{id}',[Company_UserController::class,'resetPassword']);
+///////////////////////////////////////////////////////////////////////////////
+Route::get('/company/company_dashbord/add_vacancies', function () {
+    if(session()->has('company_user')){
+        return view('compantUI.add_vacancies');
+    }
+   return redirect('/company');
+
+});
+Route::post('/company/company_dashbord/add_vacancies/createjob',[Job_Vacancy_Controller::class,'register']);
+Route::get('/company/company_dashbord/View_applications',[Job_Vacancy_Controller::class,'viewapplication']);
+Route::get('/company/company_dashbord/View_applications/downlode_cv/{st_cv}',[Job_Vacancy_Controller::class,'downloadeCv']);
+Route::get('/company/company_dashbord/profile_registration',[Company_Controller::class,'index']);
+Route::get('/company/company_dashbord/profile_view',[Company_Controller::class,'showProfile']);
+Route::get('/company/company_dashbord/profile_view/view_jobsVacancis',[Job_Vacancy_Controller::class,'showVacancy']);
+Route::get('/company/company_dashbord/profile_view/view_jobsVacancis/view/{id}',[Job_Vacancy_Controller::class,'viewVacancy']);
+Route::get('/company/company_dashbord/profile_view/view_jobsVacancis/view/edit/{id}',[Job_Vacancy_Controller::class,'editVacancy']);
+Route::get('/company/company_dashbord/profile_view/view_jobsVacancis/view/delete/{id}',[Job_Vacancy_Controller::class,'deleteVacancy']);
+Route::post('/company/company_dashbord/profile_view/view_jobsVacancis/view/edit/save/{id}',[Job_Vacancy_Controller::class,'saveEditVacancy']);
+Route::post('/company/company_dashbord/profile_registration/savedata',[Company_Controller::class,'registerProfile']);
+Route::post('/company/company_dashbord/profile_registration/editdata/{id}',[Company_Controller::class,'editeProfile']);
+Route::get('/company/company_dashbord/View_applications/accept_job/{id}',[Company_Controller::class,'accept']);
+Route::post('/company/company_dashbord/View_applications/accept_job/sendmail/{id}',[Company_Controller::class,'sendMail']);
+Route::get('/company/company_dashbord/View_applications/pending_job/{id}',[Company_Controller::class,'pending']);
+
 //////////////////Career Counsellor's Routes///////////////////////////
 
     //Career Counsellor's Auth Routes
@@ -99,7 +153,7 @@ Route::get('/cc', function () {
     if(session()->has('counsellor_user')){
         return redirect('/cc/career_counsellor_dashbord');
     } 
-    return view('auth.career_counsellor_login');
+    return view('auth.CGU Counsellor login');
 });
 Route::get('/cc/register', function () {
     return view('auth.career_counsellor_register');

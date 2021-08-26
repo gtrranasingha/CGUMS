@@ -14,18 +14,24 @@ class CreateStudentsTable extends Migration
     public function up()
     {
         Schema::create('students', function (Blueprint $table) {
-            $table->string('St_id',20);
-            $table->primary('St_id');
+            $table->id();
+            $table->string('St_id',20)->unique();
             $table->string('f_name',50);
             $table->string('l_name',100);
-            $table->string('email',100)->unique();
-            $table->string('password',50);
+            $table->string('personal_email',100);
+            $table->string('uni_email',100)->unique();
             $table->string('mobile',20);
-            $table->string('address',200);
-            $table->date('dob');
+            $table->string('per_address',200);
+            $table->string('mob_address',200);
             $table->string('nic',20)->unique();
-            $table->string('faculty',100);
+            $table->string('faculty',10);
+            $table->string('degree',10);
+            $table->string('gpa',10);
+            $table->string('cv',100)->nullable();
+            $table->string('image',100)->nullable();
             $table->timestamps();
+
+            
         });
     }
 
