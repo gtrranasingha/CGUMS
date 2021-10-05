@@ -19,6 +19,9 @@ class CreateNotiesTable extends Migration
             $table->string('note',225);
             $table->string('date',20);
             $table->string('time',10);
+            $table->string('link1',225)->nullable();
+            $table->string('link2',225)->nullable();
+            $table->string('attachment',100)->nullable();
             $table->timestamps();
         });
     }

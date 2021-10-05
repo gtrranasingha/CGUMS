@@ -8,8 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class Session extends Model
 {
     use HasFactory;
+
     protected $fillable = [
-        's_no',
         'St_id',
         's_type',
         's_date',

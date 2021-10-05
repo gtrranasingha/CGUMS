@@ -9,14 +9,15 @@ class Company_UserController extends Controller
 {
     public function register(Request $request){
         $company_user=new Comapany_user();
-           // dd($request->all());
+           
            $this->validate($request,[
             'name'=>'required|max:20|min:5|unique:comapany_users',
             'password'=>'required|max:191|min:3',
+            'confirm_password' => 'required|same:password',
             'comp_name'=>'required|unique:comapany_users|max:191|min:3',
             ]
         );
-           
+        //dd($request->all());
                     $company_user->name=$request->name;
                     $company_user->comp_name=$request->comp_name;
                     $shpassword=sha1($request->password);
@@ -28,14 +29,13 @@ class Company_UserController extends Controller
         $this->validate($request,[
             'name'=>'required|max:20|min:5',
             'password'=>'required|max:191|min:3'
-            
             ]
         );
         $name=$request->name;
         $shpassword=sha1($request->password);
         $password=$shpassword;
 
-        $data= DB::select('select id from comapany_users where name=? and password=?',[$name, $password]);
+        $data= DB::select('select id from comapany_users where name=? and password=? and is_deleted=? ',[$name, $password,1]);
         
         // print_r($data);
         if(count($data)){
@@ -46,7 +46,7 @@ class Company_UserController extends Controller
          return redirect('/company/company_dashbord');
         }
         else{
-         return redirect()->back()->with('message', 'Account is Incorrect!');
+         return redirect()->back()->with('error_message', 'Account is Incorrect!');
         }
     }
     public function updateProfile($id){
@@ -111,5 +111,23 @@ class Company_UserController extends Controller
          return redirect('/company');  
     }
 
-    
+    public function viewCompanies(){
+        if(session()->has('counsellor_user')){
+            $company = DB::table('comapany_users')->leftJoin('companies','comapany_users.comp_name', '=','companies.Com_name')->select('comapany_users.*','companies.email') ->get();
+            return view('cgu.CGU View Companies',['companies'=>$company]);
+    }
+            return redirect('/cc');
+    }
+    public function deactive($id){
+        $company=Comapany_user::find($id);
+        $company->is_deleted=0;
+        $company->update();
+        return redirect()->back();
+    }
+    public function active($id){
+        $company=Comapany_user::find($id);
+        $company->is_deleted=1;
+        $company->update();
+        return redirect()->back();
+    }
 }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Career_Counsellor_user;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
 
 class Career_Counsellor_UserController extends Controller
@@ -48,7 +49,7 @@ class Career_Counsellor_UserController extends Controller
              return redirect('/cc/career_counsellor_dashbord');
             }
             else{
-             return redirect()->back()->with('message', 'Account is Incorrect!');
+             return redirect()->back()->with('error_message', 'Account is Incorrect!');
             }
         }
         public function updateProfile($id){
@@ -83,8 +84,9 @@ class Career_Counsellor_UserController extends Controller
         }
         public function changePassword($id){
             if(session()->has('counsellor_user')){
-                $user=Career_Counsellor_user::find($id);
-                return view('auth.career_counsellor_change_password')->with('counsellor_user_data',$user);
+                $ID= Crypt::decrypt($id); 
+                $user=Career_Counsellor_user::find($ID);
+                return view('cgu.CGU User Profile')->with('counsellor_user_data',$user);
              }
              return redirect('/cc');   
         }

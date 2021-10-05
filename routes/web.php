@@ -7,10 +7,16 @@ use App\Http\Controllers\Company_UserController;
 use App\Http\Controllers\FacultyController;
 use App\Http\Controllers\Job_Vacancy_Controller;
 use App\Http\Controllers\MailController;
+use App\Http\Controllers\NotiesController;
+use App\Http\Controllers\Programme_Controller;
 use App\Http\Controllers\Session_Controller;
 use App\Http\Controllers\Student_Controller;
 use App\Http\Controllers\UserController;
+use App\Models\Career_Counsellor_user;
+use App\Models\Comapany_user;
+use App\Models\Programme;
 use App\Models\Session;
+use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 
@@ -33,12 +39,12 @@ Route::post('/request_register/sendemail/confirm/savenumber',[MailController::cl
     //Student's Auth Routes
 Route::get('/welcome', function () {
     if(session()->has('student_user')){
-        $session_count =count(DB::select('select s_no from sessions  where St_id=?',[session('student_id')]));
+        $session_count =count(DB::select('select id from sessions  where St_id=?',[session('student_id')]));
         $job_count =count(DB::select('select id from  job__vacancies'));
-        $programme_count =count(DB::select('select P_id from   programmes where St_id=?',[session('student_id')]));
-        $applyjob_count =count(DB::select('select id from    apply_jobs  where st_uid =?',[session('student_id')]));
+        $programme_count =count(DB::select('select id from programmes'));
+        $applyjob_count =count(DB::select('select id from   apply_jobs  where st_uid =?',[session('student_id')]));
         $applyjobs_data= DB::select('select * from  apply_jobs  where st_uid =?',[session('student_id')]);
-        $programmes_data= DB::select('select * from  programmes where St_id=?',[session('student_id')]);
+        $programmes_data= DB::select('SELECT * from  enrollments  LEFT JOIN programmes ON  programmes.id=enrollments.P_id WHERE enrollments.St_id=?',[session('student_id')]);
         return view('studentUI.student_dashbord',['sessionCounts'=> $session_count,'jobCounts'=>$job_count,'proCounts'=>$programme_count,
         'applyjob'=>$applyjob_count,'jobs'=>$applyjobs_data,'programmes'=>$programmes_data]);
     }
@@ -77,6 +83,11 @@ Route::get('/request_register/sendemail/confirm/savenumbe/register/profile/getDe
 /////////////////////////////////////////////////////////////////////
 Route::post('/request_register/sendemail/confirm/savenumbe/register/profile/savedata', [Student_Controller::class, 'register'])->name('profiledata');
 Route::get('/welcome/profile', [Student_Controller::class, 'index']);
+Route::get('/welcome/programmes', [Programme_Controller::class, 'showProgrammes']);
+Route::get('/welcome/programmes/enroll/{id}', [Programme_Controller::class, 'enroll']);
+Route::get('/welcome/programmes/enroll/cancle/{id}', [Programme_Controller::class, 'cancel']);
+Route::get('/welcome/noties', [NotiesController::class, 'showNoties']);
+Route::get('/welcome/noties/{attachment}',[NotiesController::class,'downloadFiles']);
 Route::post('/welcome/profile/savedata/{id}', [Student_Controller::class, 'editProfile']);
 Route::get('/welcome/job_vacancies', [Job_Vacancy_Controller::class, 'index']);
 Route::get('/welcome/job_vacancies/apply/{id}', [Job_Vacancy_Controller::class,'apply']);
@@ -107,10 +118,6 @@ Route::get('/company', function () {
     }
     return view('auth.company_login');
 });
-Route::get('/company/register', function () {
-    return view('auth.company_register');
-});
-Route::post('/company/register/savedata',[Company_UserController::class,'register']);
 Route::post('/company/getdata',[Company_UserController::class,'login']);
 Route::get('/company/logout', function () {
     if(session()->has('company_user')){
@@ -163,7 +170,16 @@ Route::post('/cc/getdata',[Career_Counsellor_UserController::class,'login']);
 
 Route::get('/cc/career_counsellor_dashbord', function () {
     if(session()->has('counsellor_user')){
-        return view('career_counsellor_dashbord');
+        $comp_count =(int)(Comapany_user::all()->count());
+        $prog_count =(int)(Programme::all()->count());
+        $all_session =(int)(Session::all()->count());
+        $all_student =(int)(User::all()->count());
+        $all_cgu =(int)(Career_Counsellor_user::all()->count());
+        $ccsession_count =count(DB::select('select id from sessions  where s_type =?',['Career Counselling Session']));
+        //$ccsession_count =count(DB::select('select s_no from sessions  where s_type =?',['Career Counselling Session']));
+        return view('cgu.CGU Dashboard',['comp_count'=> $comp_count,'prog_count'=>$prog_count,
+        'all_session'=> $all_session,'ccsession_count'=>$ccsession_count,'all_student'=>$all_student,
+            'all_student'=>$all_student,'all_cgu'=>$all_cgu]);
     }
    return redirect('/cc');
 
@@ -176,8 +192,48 @@ Route::get('/cc/logout', function () {
 });
 Route::get('/cc/career_counsellor_dashbord/update/{id}',[Career_Counsellor_UserController::class,'updateProfile']);
 Route::post('/cc/career_counsellor_dashbord/update/savedata/{id}',[Career_Counsellor_UserController::class,'edit']);
-Route::get('/cc/career_counsellor_dashbord/update/change_password/{id}',[Career_Counsellor_UserController::class,'changePassword']);
-Route::post('/cc/career_counsellor_dashbord/update/change_password/savedata/{id}',[Career_Counsellor_UserController::class,'resetPassword']);
+Route::get('/cc/career_counsellor_dashbord/change_password/{id}',[Career_Counsellor_UserController::class,'changePassword']);
+Route::post('/cc/career_counsellor_dashbord/change_password/savedata/{id}',[Career_Counsellor_UserController::class,'resetPassword']);
+Route::get('/cc/career_counsellor_dashbord/company/register', function () {
+    if(session()->has('counsellor_user')){
+            return view('cgu.CGU Company User Registration');
+    }
+            return redirect('/cc');
+});
+Route::post('/cc/career_counsellor_dashbord/company/register/savedata',[Company_UserController::class,'register']);
+Route::get('/cc/career_counsellor_dashbord/company/view',[Company_UserController::class,'viewCompanies']);
+Route::get('/cc/career_counsellor_dashbord/company/view/deactive/{id}',[Company_UserController::class,'deactive']);
+Route::get('/cc/career_counsellor_dashbord/company/view/active/{id}',[Company_UserController::class,'active']);
+        /////////////////////////////////Noties////////////////////////////////
+Route::get('/cc/career_counsellor_dashbord/noties',[NotiesController::class,'index']);
+Route::get('/cc/career_counsellor_dashbord/noties/show/{id}',[NotiesController::class,'viewNoties']);
+Route::get('/cc/career_counsellor_dashbord/noties/delete/{id}',[NotiesController::class,'deleteNoties']);
+Route::get('/cc/career_counsellor_dashbord/noties/view/{attachment}',[NotiesController::class,'downloadFiles']);
+Route::get('/cc/career_counsellor_dashbord/noties/addnew',[NotiesController::class,'addNoties']);  
+Route::post('/cc/career_counsellor_dashbord/noties/addnew/save',[NotiesController::class,'addNotiesSavedata']);            
+Route::get('/cc/career_counsellor_dashbord/noties/edit/{id}',[NotiesController::class,'editNoties']);
+Route::post('/cc/career_counsellor_dashbord/noties/edit/{id}/save',[NotiesController::class,'editNotiesSavedata']); 
+          /////////////////////////////////Programme////////////////////////////////
+Route::get('/cc/career_counsellor_dashbord/programme',[Programme_Controller::class,'index']);
+Route::get('/cc/career_counsellor_dashbord/programme/show/{id}',[Programme_Controller::class,'viewProgramme']);
+Route::get('/cc/career_counsellor_dashbord/programme/delete/{id}',[Programme_Controller::class,'removeProgramme']);
+Route::get('/cc/career_counsellor_dashbord/programme/enrollment/{id}',[Programme_Controller::class,'enrollProgramme']);
+Route::get('/cc/career_counsellor_dashbord/programme/edit/{id}',[Programme_Controller::class,'editProgramme']);
+Route::post('/cc/career_counsellor_dashbord/programme/edit/savedata/{id}',[Programme_Controller::class,'editProgrammeSavedata']);
+Route::get('/cc/career_counsellor_dashbord/programme/addnew',[Programme_Controller::class,'addProgramme']);
+Route::post('/cc/career_counsellor_dashbord/programme/addnew/savedata',[Programme_Controller::class,'addProgrammeSavedata']);
+
+Route::get('/cc/career_counsellor_dashbord/session/Career Counselling Session',[Session_Controller::class,'showCcsession']);
+Route::get('/cc/career_counsellor_dashbord/session/Career Counselling Session/select/{id}',[Session_Controller::class,'selectSession']);
+Route::get('/cc/career_counsellor_dashbord/session/Career Counselling Session/remove/{id}',[Session_Controller::class,'RemoveSession']);
+Route::get('/cc/career_counsellor_dashbord/session/Mock interview',[Session_Controller::class,'showMockinterview']);
+
+Route::get('/cc/career_counsellor_dashbord/job_vacancies', [Job_Vacancy_Controller::class, 'cguShowVacancy']);
+Route::get('/cc/career_counsellor_dashbord/job_vacancies/view/{id}', [Job_Vacancy_Controller::class,'cguViewJob']);
+Route::get('/cc/career_counsellor_dashbord/job_vacancies/view/remove/{id}', [Job_Vacancy_Controller::class,'cguRemoveJob']);
+
+
+
 
 //////////////////CGU Director's Routes ///////////////////////////
 

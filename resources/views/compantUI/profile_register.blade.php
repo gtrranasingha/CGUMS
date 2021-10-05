@@ -144,7 +144,7 @@
                   <div class="col-md-12">
                   
                     <div class="custom-file">
-                      <input type="file" class="custom-file-input"  name="image" accept="image/png, image/jpeg> 
+                      <input type="file" class="custom-file-input"  name="image" accept="image/png, image/jpeg"> 
                       <label class="custom-file-label" for="company logo">Upload your company logo here [Maximum File Size - 2MB]</label>
                     </div>
                     @error('logo')

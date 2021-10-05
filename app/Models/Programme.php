@@ -10,8 +10,6 @@ class Programme extends Model
     use HasFactory;
 
     protected $fillable = [
-        'P_id',
-        'St_id',
         'P_type',
         'P_name',
         'P_details',

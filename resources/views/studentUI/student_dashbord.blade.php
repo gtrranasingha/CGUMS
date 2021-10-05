@@ -57,15 +57,14 @@
           </div>
         </li>
 
-        <li><a href="#" class="collapsible-header waves-effect arrow-r"><i class="far fa-check-square"></i>Programmes</a>
+        <li><a href="/welcome/programmes" class="collapsible-header waves-effect arrow-r"><i class="far fa-check-square"></i>Programmes</a>
         </li>
         <li><a class="collapsible-header waves-effect arrow-r"><i class="fas fa-table"></i> Sessions<i class="fas fa-angle-down rotate-icon"></i></a>
           <div class="collapsible-body">
             <ul>
               <li><a href="/welcome/sessions/cc_session" class="waves-effect">Career Counselling Session</a>
               </li>
-              <li><a href="#" class="waves-effect">CV Screening</a>
-              </li>
+             
               <li><a href="/welcome/sessions/mock_interviews" class="waves-effect">Trial interview</a>
               </li>
             </ul>
@@ -73,7 +72,7 @@
         </li>
         
         <!-- Simple link -->
-        <li><a href="../alerts/alerts.html" class="collapsible-header waves-effect"><i class=" far fa-bell"></i>
+        <li><a href="/welcome/noties" class="collapsible-header waves-effect"><i class=" far fa-bell"></i>
             Notices</a></li>
 
         <li><a href="/welcome/job_vacancies" class="collapsible-header waves-effect"><i class=" fas fa-th-large"></i>
@@ -383,7 +382,7 @@
                       <td>{{$programme->P_type }}</td>
                       <td class="date">
                         <span class="grey-text">
-                        {{$programme->updated_at}}
+                        {{$programme->P_date}} {{$programme->P_time}}
                         </span>
                       </td>
                     </tr>

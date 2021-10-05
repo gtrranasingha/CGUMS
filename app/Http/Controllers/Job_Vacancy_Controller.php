@@ -172,4 +172,28 @@ class Job_Vacancy_Controller extends Controller
         }
 
     }
+    public function cguShowVacancy(){
+        $data=Job_Vacancy::all();
+        if(session()->has('counsellor_user')){
+            return view('cgu.CGU Show Job Vacancy')->with('passdata',$data);
+        }
+       return redirect('/cc');  
+    }
+    public function cguViewJob($id){
+        $job=Job_Vacancy::find($id);
+        if(session()->has('counsellor_user')){
+            return view('cgu.CGU Find job Vacancy')->with('jobs',$job);
+        }
+       return redirect('/cc');  
+
+    }
+    public function cguRemoveJob($id){
+        $job=Job_Vacancy::find($id);
+        $done=$job->delete();
+        if($done){
+            return redirect('/cc/career_counsellor_dashbord/job_vacancies');
+        }else{
+            return redirect()->back();
+        }
+    }
 }

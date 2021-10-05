@@ -5,13 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Comapany_user extends Model
+class Enrollment extends Model
 {
     use HasFactory;
-    protected $fillable = [
-        'name',
-        'comp_name',
-        'password ',
-        'is_deleted ',
-    ];
 }
