@@ -22,6 +22,7 @@ use Illuminate\Support\Facades\Route;
 
 
 ///////////////////////Student's  Routes///////////////////////////
+
 Route::post('/request_register/sendemail',[MailController::class,'sendEmail']);
 Route::get('/request_register',function(){
     return view('auth.student_register_request');
@@ -48,7 +49,7 @@ Route::get('/welcome', function () {
         return view('studentUI.student_dashbord',['sessionCounts'=> $session_count,'jobCounts'=>$job_count,'proCounts'=>$programme_count,
         'applyjob'=>$applyjob_count,'jobs'=>$applyjobs_data,'programmes'=>$programmes_data]);
     }
-   return redirect('/');
+   return redirect('/loginpage');
 });
 Route::get('/request_register/sendemail/confirm/savenumbe/register', function () {
     if(session()->has('code')){
@@ -69,7 +70,23 @@ Route::get('/', function () {
     if(session()->has('student_user')){
         return redirect('/welcome');
     }
+  return view('studentUI.home');
+ 
+});
+
+Route::get('/loginpage', function () {
+    if(session()->has('student_user')){
+        return redirect('/welcome');
+    }
   return view('auth.student_login');
+ 
+});
+
+Route::get('/registerpage', function () {
+    if(session()->has('student_user')){
+        return redirect('/welcome');
+    }
+  return view('auth.student_register_request');
  
 });
 

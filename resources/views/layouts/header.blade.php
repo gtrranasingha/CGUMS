@@ -23,7 +23,7 @@
     <!-- Side navigation links -->
     <li>
       <ul class="collapsible collapsible-accordion">
-        <li><a href="../dashboards/v-3.html" class="collapsible-header waves-effect arrow-r"><i class="fas fa-tachometer-alt"></i>
+        <li><a href="/welcome" class="collapsible-header waves-effect arrow-r"><i class="fas fa-tachometer-alt"></i>
             My Dashboard</a>
         </li>
         
